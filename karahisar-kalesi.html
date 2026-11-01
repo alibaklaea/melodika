@@ -68,6 +68,7 @@ input[type=range]{accent-color:var(--accent)}
 .n .sy{font-size:12px;font-weight:700;line-height:1.1;min-height:14px;white-space:nowrap}
 .n.rest{background:transparent;border:2px dashed var(--line);color:var(--muted)}
 .n.on{transform:translateY(-4px) scale(1.06);box-shadow:0 0 0 3px var(--hl)}
+.bag{font-size:10px;font-weight:700;opacity:.9}
 .v2{display:block;font-size:11px;opacity:.85;font-weight:600}
 .jump{font-size:12px;color:var(--muted);align-self:center;font-weight:700}
 .tips{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
@@ -188,7 +189,7 @@ keys.forEach((k,i)=>{
 
 // nota satırları
 const score=document.getElementById('score');
-score.innerHTML='<h2>Notalar</h2><p style="margin:0 0 6px;color:var(--muted);font-size:14.5px">Kutunun genişliği notanın ne kadar uzun çalınacağını gösterir. Üstteki küçük sayı parmak numarasıdır (1 = başparmak). İkinci satırdaki küçük yazı 2. kıtanın sözüdür.</p>';
+score.innerHTML='<h2>Notalar</h2><p style="margin:0 0 6px;color:var(--muted);font-size:14.5px">Kutunun genişliği notanın ne kadar uzun çalınacağını gösterir. Üstteki küçük sayı parmak numarasıdır (1 = başparmak). İkinci satırdaki küçük yazı 2. kıtanın sözüdür. <b>bağlı</b> yazan notada yeni hece yok: önceki notanın hecesi devam eder, üflemeyi kesmeden sadece tuşu değiştir.</p>';
 let mno=0;const chips=[];
 for(const [key,part] of Object.entries(PARTS)){
   const wrap=document.createElement('div');wrap.className='part';
@@ -203,7 +204,7 @@ for(const [key,part] of Object.entries(PARTS)){
       if(!n.p){c.className='n rest';c.innerHTML='<span class="f">&nbsp;</span><span class="nm">sus</span><span class="sy"></span>';}
       else{
         c.className='n';c.style.setProperty('--c',`var(${COL[n.p[0]]})`);
-        c.innerHTML=`<span class="f">${n.f}</span><span class="nm ${isHi(n.p)?'hi':''}">${label(n.p)}</span><span class="sy">${n.s||'—'}${n.s2?`<span class="v2">${n.s2}</span>`:''}</span>`;
+        c.innerHTML=`<span class="f">${n.f}</span><span class="nm ${isHi(n.p)?'hi':''}">${label(n.p)}</span><span class="sy">${n.s||'<span class="bag">bağlı</span>'}${n.s2?`<span class="v2">${n.s2}</span>`:''}</span>`;
       }
       c.id=`n-${key}-${mi}-${ni}`;ms.appendChild(c);
     });
@@ -216,7 +217,7 @@ for(const [key,part] of Object.entries(PARTS)){
 const plain=[];
 for(const [key,part] of Object.entries(PARTS)){
   plain.push(`${part.title} (${part.note})`);
-  plain.push(part.measures.map(m=>m.map(n=>n.p?(isHi(n.p)?'↑':'')+label(n.p)+(n.d>=2?' ——':n.d>=.75?' -':''):'(sus)').join(' ')).join(' | '));
+  plain.push(part.measures.map(m=>m.map(n=>n.p?(isHi(n.p)?'↑':'')+label(n.p)+(n.d>=2?' ——':''):'(sus)').join(' ')).join(' | '));
   plain.push('');
 }
 document.getElementById('plain').textContent=plain.join('\n');
