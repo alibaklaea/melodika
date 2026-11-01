@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Karahisar Kalesi Melodika</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;800&display=swap">
+<style>
+/* Layout: tek sütun çalışma kâğıdı — üstte tuş rehberi + oynatıcı, altta ölçü ölçü renkli nota satırları */
+:root{
+  --bg:#f6f7fb; --paper:#ffffff; --ink:#1d2340; --muted:#5d6488; --line:#dfe2ef; --accent:#2c4bd6;
+  --do:#e5484d; --re:#f2803a; --mi:#e8b500; --fa:#2fa84f; --sol:#11a3a3; --la:#3c6fe0; --si:#8a4fd8;
+  --chipText:#ffffff; --hl:#1d2340;
+  --display:"Baloo 2", "Trebuchet MS", system-ui, sans-serif;
+  --body:"Nunito", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12152a; --paper:#1b1f38; --ink:#eef0ff; --muted:#a8aed3; --line:#2e3457; --accent:#8ea4ff;
+  --do:#d9454a; --re:#d87430; --mi:#c99c00; --fa:#2b9547; --sol:#119090; --la:#4a78e6; --si:#8d57d9;
+  --chipText:#ffffff; --hl:#ffffff; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12152a; --paper:#1b1f38; --ink:#eef0ff; --muted:#a8aed3; --line:#2e3457; --accent:#8ea4ff;
+  --do:#d9454a; --re:#d87430; --mi:#c99c00; --fa:#2b9547; --sol:#119090; --la:#4a78e6; --si:#8d57d9;
+  --chipText:#ffffff; --hl:#ffffff; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5}
+.wrap{max-width:980px;margin:0 auto;padding-block:20px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:22px}
+header h1{font-family:var(--display);font-weight:800;font-size:clamp(30px,6vw,46px);line-height:1.05;margin:0;text-wrap:balance}
+header p{margin:6px 0 0;color:var(--muted)}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.tag{font-size:13px;border:1px solid var(--line);border-radius:999px;padding:2px 10px;color:var(--muted);background:var(--paper)}
+section.box{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px}
+h2{font-family:var(--display);font-size:22px;margin:0 0 10px;line-height:1.2}
+/* klavye */
+.kbd-scroll{overflow-x:auto}
+.kbd{position:relative;display:flex;gap:3px;min-width:560px;height:150px}
+.wk{flex:1;border:2px solid var(--line);border-radius:0 0 10px 10px;background:var(--paper);display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding-bottom:8px;font-weight:800;font-size:14px;transition:transform .08s}
+.wk .nm{font-family:var(--display);font-size:17px}
+.wk .sub{font-size:11px;font-weight:600;color:var(--muted)}
+.wk.used{border-color:var(--c);box-shadow:inset 0 -46px 0 var(--c)}
+.wk.used .nm,.wk.used .sub{color:var(--chipText)}
+.wk.on{transform:translateY(4px);box-shadow:inset 0 -150px 0 var(--c)}
+.bk{position:absolute;top:0;width:calc(100%/11*0.55);height:88px;background:var(--ink);border-radius:0 0 6px 6px;opacity:.85}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;font-size:14px;color:var(--muted)}
+/* oynatıcı */
+.player{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+button{font:inherit;font-weight:800;border-radius:12px;border:2px solid var(--accent);background:var(--paper);color:var(--accent);padding:8px 14px;cursor:pointer}
+button.primary{background:var(--accent);color:var(--paper)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+select{font:inherit;padding:7px 8px;border-radius:10px;border:2px solid var(--line);background:var(--paper);color:var(--ink)}
+label.inl{display:flex;align-items:center;gap:8px;color:var(--muted);font-weight:600}
+input[type=range]{accent-color:var(--accent)}
+/* nota satırları */
+.part{display:grid;gap:10px}
+.part h3{font-family:var(--display);font-size:18px;margin:8px 0 0;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.part h3 small{font-family:var(--body);font-size:13px;color:var(--muted);font-weight:600}
+.row{display:flex;flex-wrap:wrap;gap:8px}
+.ms{display:flex;gap:3px;padding:6px;border:1px dashed var(--line);border-radius:12px;min-width:0;align-items:stretch}
+.ms .num{font-size:10px;color:var(--muted);writing-mode:vertical-rl;transform:rotate(180deg);text-align:center}
+.n{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:1px;border-radius:9px;padding:4px 2px 5px;background:var(--c);color:var(--chipText);position:relative;transition:transform .08s,box-shadow .08s}
+.n .f{font-size:11px;font-weight:800;background:rgba(0,0,0,.22);border-radius:99px;min-width:18px;text-align:center;line-height:18px}
+.n .nm{font-family:var(--display);font-weight:800;font-size:17px;line-height:1.1}
+.n .nm.hi::before{content:"↑";font-size:12px;margin-right:1px}
+.n .sy{font-size:12px;font-weight:700;line-height:1.1;min-height:14px;white-space:nowrap}
+.n.rest{background:transparent;border:2px dashed var(--line);color:var(--muted)}
+.n.on{transform:translateY(-4px) scale(1.06);box-shadow:0 0 0 3px var(--hl)}
+.v2{display:block;font-size:11px;opacity:.85;font-weight:600}
+.jump{font-size:12px;color:var(--muted);align-self:center;font-weight:700}
+.tips{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.tip{border-left:4px solid var(--c,var(--accent));padding:4px 0 4px 12px}
+.tip b{display:block;font-family:var(--display);font-size:17px}
+.tip p{margin:2px 0 0;color:var(--muted);font-size:14.5px}
+.plain{font-family:ui-monospace,Consolas,monospace;font-size:14px;white-space:pre-wrap;line-height:1.7;margin:0;overflow-x:auto}
+@media (prefers-reduced-motion:reduce){.n,.wk{transition:none}}
+</style>
+
+<div class="wrap">
+<header>
+  <h1>Karahisar Kalesi</h1>
+  <p>Melodika için renkli notalar ve parmak numaraları. Kaynak: MEB 7. sınıf Müzik ders kitabı, 4. bölüm, 1. etkinlik.</p>
+  <div class="meta"><span class="tag">Yöresi: Afyonkarahisar</span><span class="tag">Derleyen: Ahmet Yamacı</span><span class="tag">2/4 · Orta hız</span><span class="tag">Hepsi beyaz tuş</span></div>
+</header>
+
+<section class="box">
+  <h2>Hangi tuşlar?</h2>
+  <div class="kbd-scroll"><div class="kbd" id="kbd"></div></div>
+  <div class="legend">
+    <span>Orta Do'yu bul: 32 tuşlu melodikada <b>soldan ilk Do</b>. Bu şarkı onun hemen sağındaki <b>Mi</b> ile başlayıp bir sekiz ses yukarıdaki <b>ince Mi</b>'ye kadar gider.</span>
+    <span><b>↑Mi</b> = ince (yukarıdaki) Mi.</span>
+  </div>
+</section>
+
+<section class="box">
+  <h2>Dinle ve takip et</h2>
+  <div class="player">
+    <button class="primary" id="play">▶ Çal</button>
+    <button id="stop">■ Dur</button>
+    <select id="part" aria-label="Bölüm seç">
+      <option value="all">Baştan sona (tekrarlarla)</option>
+      <option value="A">1. bölüm: Karahisar kalesi</option>
+      <option value="B">2. bölüm: Kâkülü boynuna</option>
+      <option value="C">3. bölüm: Yayladan gel</option>
+    </select>
+    <label class="inl" for="tempo">Hız <input type="range" id="tempo" min="40" max="90" value="72"> <span id="tv">72</span></label>
+  </div>
+</section>
+
+<section class="box" id="score"></section>
+
+<section class="box">
+  <h2>Çalarken dikkat</h2>
+  <div class="tips">
+    <div class="tip" style="--c:var(--la)"><b>İki el konumu var</b><p><b>Üst konum:</b> başparmak La'da. La 1, Si 2, Do 3, Re 4, ↑Mi 5.<br><b>Alt konum:</b> başparmak kalın Mi'de. Mi 1, Fa 2, Sol 3, La 4, Si 5.</p></div>
+    <div class="tip" style="--c:var(--sol)"><b>Konum değiştirme</b><p>"La, La" diye iki La üst üste gelince ikinci La'yı 4. parmakla bas. Elin kendiliğinden alt konuma iner.</p></div>
+    <div class="tip" style="--c:var(--mi)"><b>Yukarı sıçrama</b><p>Uzun kalın Mi'den sonra ↑Mi gelir. Uzun notayı tutarken elini yukarı hazırla, ↑Mi'yi serçe parmakla bas.</p></div>
+    <div class="tip" style="--c:var(--re)"><b>Nefes</b><p>Uzun notaların (geniş kutular) bitiminde ve sus işaretinde nefes al. Bağlı notalarda (alt çizgi olan heceler) üflemeyi kesme, sadece tuş değiştir.</p></div>
+  </div>
+</section>
+
+<section class="box">
+  <h2>Sadece nota isimleri</h2>
+  <pre class="plain" id="plain"></pre>
+</section>
+</div>
+
+<script>
+// süreler dörtlük cinsinden: .25 = onaltılık, .5 = sekizlik, .75 = noktalı sekizlik, 1 = dörtlük, 2 = ikilik
+const N=(p,d,s,f,s2)=>({p,d,s,f,s2});
+const R=d=>({p:null,d,s:'',f:''});
+const pat5=(a,b,c,d,v)=>[N('E5',.75,a,5,v&&v[0]),N('D5',.25,b,4,v&&v[1]),N('D5',.5,c,4,v&&v[2]),N('D5',.5,d,4,v&&v[3])];
+const pat6=(a,b,c,d,v)=>[N('E5',.25,a,5,v&&v[0]),N('D5',.25,'',4),N('C5',.25,b,3,v&&v[1]),N('D5',.25,'',4),N('C5',.25,c,3,v&&v[2]),N('B4',.25,'',2),N('A4',.5,d,1,v&&v[3])];
+const pat7=(a,b,c,v,last)=>[N('A4',.5,a,4,v&&v[0]),N('A4',.25,b,4,v&&v[1]),N('B4',.25,'',5),...(last?[N('G4',.75,c,3,v&&v[2]),N('E5',.25,'',5)]:[N('G4',1,c,3,v&&v[2])])];
+const pat8=(a,b,c,d,v)=>[N('A4',.25,a,4,v&&v[0]),N('G4',.25,'',3),N('F4',.25,b,2,v&&v[1]),N('E4',.25,'',1),N('F4',.5,c,2,v&&v[2]),N('E4',.5,d,1,v&&v[3])];
+const half=(s,f,p,s2)=>[N(p,2,s,f,s2)];
+
+const PARTS={
+ A:{title:'1. bölüm',note:'iki kez çalınır: 1. kıta ve 2. kıta sözleri',measures:[
+   [{p:null,d:.5,s:'',f:''},N('A4',.25,'Ka',1,'Ben'),N('A4',.25,'ra',1,'bir'),N('E5',.5,'hi',5,'ko'),N('E5',.5,'sar',5,'yun')],
+   [N('E5',.5,'Ka',5,'o'),N('E5',.5,'le',5,'la'),N('E5',.5,'si',5,'yım'),{p:null,d:.5,s:'',f:''}],
+   [N('E5',.75,'yı',5,'sen'),N('D5',.25,'kı',4,'de'),N('C5',.25,'lır',3,'bir'),N('B4',.25,'',2),N('A4',.5,'ge',1,'ku')],
+   half('lir',5,'E5','zu')]},
+ B:{title:'2. bölüm',note:'iki kez çalınır',measures:[
+   pat5('Kâ','kü','lü','boy',['Me','le','ye','me']),
+   pat6('nu','na','dö','kü',['le','ye','ge','ti']),
+   pat7('lür','ge','lir',['rem','ya','zı']),
+   pat8('dö','kü','lür','ge',['ge','ti','rem','ya']),
+   half('lir',1,'E4','zı')]},
+ C:{title:'3. bölüm',note:'bir kez çalınır',measures:[
+   pat5('Yay','la','dan','gel'),
+   pat6('al','lı','ge','lin'),
+   pat7('yay','la','dan',null,true),
+   pat5('Kes','me','ü','mi'),
+   pat6('di','ni','Ka','dir'),
+   pat7('Mev','la\'','dan'),
+   pat8('Ka','dir','Mev','la\''),
+   half('dan',1,'E4'),
+   pat5('Ver','e','li','ni'),
+   pat6('kar','lı','dağ','lar'),
+   pat7('a','şa','lım'),
+   pat8('bay','ram','la','şa'),
+   half('lım',1,'E4')]}
+};
+const NAME={C:'Do',D:'Re',E:'Mi',F:'Fa',G:'Sol',A:'La',B:'Si'};
+const COL={C:'--do',D:'--re',E:'--mi',F:'--fa',G:'--sol',A:'--la',B:'--si'};
+const MIDI={E4:64,F4:65,G4:67,A4:69,B4:71,C5:72,D5:74,E5:76};
+const label=p=>NAME[p[0]];
+const isHi=p=>p==='E5';
+
+// klavye: Do4..Fa5 (11 beyaz tuş)
+const keys=['C4','D4','E4','F4','G4','A4','B4','C5','D5','E5','F5'];
+const kbd=document.getElementById('kbd');
+keys.forEach((k,i)=>{
+  const d=document.createElement('div');d.className='wk';d.dataset.p=k;
+  d.style.setProperty('--c',`var(${COL[k[0]]})`);
+  if(MIDI[k]) d.classList.add('used');
+  const sub=k==='C4'?'orta Do':k==='E4'?'kalın Mi':k==='E5'?'ince Mi':'';
+  d.innerHTML=`<span class="sub">${sub}</span><span class="nm">${isHi(k)?'↑':''}${label(k)}</span>`;
+  kbd.appendChild(d);
+});
+// siyah tuşlar (Do#, Re#, Fa#, Sol#, La#)
+[0,1,3,4,5,7,8,10].forEach(i=>{ if(i>=10) return;
+  const b=document.createElement('div');b.className='bk';b.setAttribute('aria-hidden','true');
+  b.style.left=`calc(${(i+1)/11*100}% - ${100/11*0.275}%)`;kbd.appendChild(b);});
+
+// nota satırları
+const score=document.getElementById('score');
+score.innerHTML='<h2>Notalar</h2><p style="margin:0 0 6px;color:var(--muted);font-size:14.5px">Kutunun genişliği notanın ne kadar uzun çalınacağını gösterir. Üstteki küçük sayı parmak numarasıdır (1 = başparmak). İkinci satırdaki küçük yazı 2. kıtanın sözüdür.</p>';
+let mno=0;const chips=[];
+for(const [key,part] of Object.entries(PARTS)){
+  const wrap=document.createElement('div');wrap.className='part';
+  wrap.innerHTML=`<h3>${part.title} <small>${part.note}</small></h3>`;
+  const row=document.createElement('div');row.className='row';
+  part.measures.forEach((m,mi)=>{
+    mno++;const ms=document.createElement('div');ms.className='ms';
+    ms.innerHTML=`<span class="num">${mno}</span>`;
+    m.forEach((n,ni)=>{
+      const c=document.createElement('div');
+      c.style.width=`${Math.max(34,n.d*84)}px`;
+      if(!n.p){c.className='n rest';c.innerHTML='<span class="f">&nbsp;</span><span class="nm">sus</span><span class="sy"></span>';}
+      else{
+        c.className='n';c.style.setProperty('--c',`var(${COL[n.p[0]]})`);
+        c.innerHTML=`<span class="f">${n.f}</span><span class="nm ${isHi(n.p)?'hi':''}">${label(n.p)}</span><span class="sy">${n.s||'—'}${n.s2?`<span class="v2">${n.s2}</span>`:''}</span>`;
+      }
+      c.id=`n-${key}-${mi}-${ni}`;ms.appendChild(c);
+    });
+    row.appendChild(ms);
+  });
+  wrap.appendChild(row);score.appendChild(wrap);
+}
+
+// düz metin
+const plain=[];
+for(const [key,part] of Object.entries(PARTS)){
+  plain.push(`${part.title} (${part.note})`);
+  plain.push(part.measures.map(m=>m.map(n=>n.p?(isHi(n.p)?'↑':'')+label(n.p)+(n.d>=2?' ——':n.d>=.75?' -':''):'(sus)').join(' ')).join(' | '));
+  plain.push('');
+}
+document.getElementById('plain').textContent=plain.join('\n');
+
+// ses
+let ctx=null,timers=[],playing=false;
+function seq(which){
+  const order=which==='all'?['A','A','B','B','C']:[which];
+  const out=[];const v={A:0,B:0};
+  for(const k of order){
+    PARTS[k].measures.forEach((m,mi)=>m.forEach((n,ni)=>out.push({...n,id:`n-${k}-${mi}-${ni}`})));
+  }
+  return out;
+}
+function tone(t,dur,midi){
+  const f=440*Math.pow(2,(midi-69)/12);
+  const o1=ctx.createOscillator(),o2=ctx.createOscillator(),g=ctx.createGain(),lp=ctx.createBiquadFilter();
+  o1.type='sawtooth';o2.type='square';o1.frequency.value=f;o2.frequency.value=f*1.003;
+  lp.type='lowpass';lp.frequency.value=f*4;lp.Q.value=.7;
+  const end=t+dur*0.94;
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.16,t+.03);g.gain.setValueAtTime(.14,end-.04);g.gain.linearRampToValueAtTime(0,end);
+  o1.connect(lp);o2.connect(lp);lp.connect(g);g.connect(ctx.destination);
+  o1.start(t);o2.start(t);o1.stop(end+.02);o2.stop(end+.02);
+}
+function clearHL(){document.querySelectorAll('.on').forEach(e=>e.classList.remove('on'))}
+function stop(){timers.forEach(clearTimeout);timers=[];playing=false;clearHL();if(ctx){ctx.close();ctx=null}}
+function play(){
+  stop();
+  ctx=new (window.AudioContext||window.webkitAudioContext)();
+  const bpm=+document.getElementById('tempo').value,q=60/bpm;
+  const list=seq(document.getElementById('part').value);
+  let t=ctx.currentTime+.15,ms=150;playing=true;
+  list.forEach(n=>{
+    const dur=n.d*q;
+    if(n.p) tone(t,dur,MIDI[n.p]);
+    timers.push(setTimeout(()=>{clearHL();const el=document.getElementById(n.id);if(el){el.classList.add('on');el.scrollIntoView({block:'nearest',behavior:'smooth'})}
+      if(n.p){const k=kbd.querySelector(`[data-p="${n.p}"]`);k&&k.classList.add('on')}},ms));
+    t+=dur;ms+=dur*1000;
+  });
+  timers.push(setTimeout(()=>{clearHL();playing=false},ms+100));
+}
+document.getElementById('play').onclick=play;
+document.getElementById('stop').onclick=stop;
+const tv=document.getElementById('tv');
+document.getElementById('tempo').oninput=e=>tv.textContent=e.target.value;
+</script>
+
+</body>
+</html>
